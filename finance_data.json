@@ -3,22 +3,7 @@
     "income": [],
     "expense": [],
     "ipad": [],
-    "commission": [
-      {
-        "name": "1",
-        "price": 1,
-        "paid": 1,
-        "status": "ส่งงานแล้ว",
-        "date": "2026-11-05"
-      },
-      {
-        "name": "1",
-        "price": 1,
-        "paid": 1,
-        "status": "กำลังทำ",
-        "date": "2026-11-05"
-      }
-    ],
+    "commission": [],
     "adoptable": []
   },
   "settings": {
@@ -26,5 +11,5 @@
     "pencilPrice": 6900,
     "percent": 35
   },
-  "updatedAt": "2026-11-05T17:54:36.091Z"
+  "updatedAt": "2026-11-05T17:54:49.621Z"
 }
