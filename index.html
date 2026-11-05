@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Little Finance ✦ สมุดบันทึกการเงิน</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Itim&family=Prompt:wght@300;400;500;600;700&display=swap');
+:root{--lav:#a98bdf;--lav2:#eee6ff;--pink:#ffdce9;--blue:#dff0ff;--mint:#def6ed;--ink:#55496b;--muted:#9287a2;--white:#fff;--line:#eee7f5;--shadow:0 8px 28px #9b83bd18}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#fbf7ff,#fff7fb 55%,#f3f9ff);font-family:'Itim','Prompt',sans-serif;color:var(--ink);font-size:16px}
+button,input,select{font:inherit}button{cursor:pointer;border:0}
+header{padding:26px max(18px,calc((100% - 1180px)/2));background:linear-gradient(110deg,#eee5ff,#ffeaf2,#e7f5ff);border-bottom:1px solid #fff}
+.brand{display:flex;align-items:center;gap:13px}.logo{width:52px;height:52px;border-radius:18px;background:#fff;display:grid;place-items:center;font-size:27px;box-shadow:var(--shadow)}
+h1{font-size:28px;margin:0;color:#7961a7}header p{margin:3px 0 0;color:#8f83a1}
+.wrap{max-width:1180px;margin:22px auto;padding:0 18px}
+.tabs{display:flex;gap:8px;overflow:auto;padding:5px 0 15px}.tab{white-space:nowrap;background:#fff;color:#84769a;padding:11px 17px;border-radius:14px;box-shadow:0 3px 12px #9b83bd10}.tab.active{background:#9d80d1;color:white}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:#ffffffdf;border:1px solid #fff;border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:15px}
+.stat small{color:var(--muted)}.stat strong{display:block;font-size:25px;margin-top:8px;color:#7961a7}.stat .emoji{float:right;font-size:23px}
+.section-title{font-size:21px;margin:4px 0 14px;color:#7961a7}.layout{display:grid;grid-template-columns:1.2fr .8fr;gap:15px}
+label{display:block;font-size:14px;color:#897c9c;margin:10px 0 5px}input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);outline:none}input:focus,select:focus{border-color:#b49add;box-shadow:0 0 0 3px #eee6ff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{background:#9d80d1;color:#fff;padding:11px 17px;border-radius:13px;margin-top:12px}.btn.secondary{background:#eee7f8;color:#7961a7}.btn.danger{background:#ffe7ed;color:#b85f7d}.btn.small{padding:6px 10px;margin:0;font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid #f0ebf5}th{color:#9487a5;font-weight:400}td:last-child{text-align:right}.empty{text-align:center;color:#a69bb2;padding:25px}
+.progress{height:12px;background:#f0eafa;border-radius:20px;overflow:hidden;margin:12px 0}.progress span{display:block;height:100%;background:linear-gradient(90deg,#a78bdf,#f4a9c7);border-radius:20px}
+.hidden{display:none}.muted{color:var(--muted);font-size:14px}.pill{display:inline-block;padding:4px 9px;border-radius:20px;background:#e9f7f0;color:#57977e;font-size:12px}
+.footer{text-align:center;color:#a79bb2;padding:25px;font-size:13px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}}
+@media(max-width:480px){h1{font-size:23px}.grid{gap:8px}.card{padding:14px}.stat strong{font-size:20px}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">🐰</div><div><h1>My Little Finance ✦</h1><p>สมุดบันทึกการเงิน & คอมมิชชั่นฉบับน่ารัก</p></div></div></header>
+<div class="wrap">
+<nav class="tabs">
+<button class="tab active" data-page="home">🏠 ภาพรวม</button><button class="tab" data-page="income">🌷 รายรับ</button><button class="tab" data-page="expense">🧁 รายจ่าย</button><button class="tab" data-page="ipad">💜 ผ่อน iPad</button><button class="tab" data-page="commission">🎨 คอมมิชชั่น</button><button class="tab" data-page="adoptable">🐣 Adoptable</button>
+</nav>
+
+<div class="card" id="githubPanel" style="margin-top:8px">
+  <h2 class="section-title">☁️ GitHub Cloud Save</h2>
+  <p class="muted">เชื่อมต่อ Private Repository เพื่อโหลดและบันทึกข้อมูลการเงินผ่าน GitHub Actions</p>
+  <div class="row">
+    <div><label>GitHub Username / Owner</label><input id="ghOwner" placeholder="เช่น Yykis"></div>
+    <div><label>ชื่อ Private Repository</label><input id="ghRepo" placeholder="เช่น my-little-finance-data"></div>
+  </div>
+  <div class="row">
+    <div><label>Branch</label><input id="ghBranch" value="main"></div>
+    <div><label>Fine-grained Personal Access Token</label><input id="ghToken" type="password" autocomplete="off" placeholder="วาง Token ที่มีสิทธิ์ตามคู่มือ"></div>
+  </div>
+  <div class="row">
+    <button class="btn" type="button" id="ghConnect">🔗 เชื่อมต่อ / โหลดข้อมูล</button>
+    <button class="btn secondary" type="button" id="ghSaveNow">☁️ บันทึกขึ้น GitHub ตอนนี้</button>
+  </div>
+  <p class="muted" id="ghStatus" role="status">ยังไม่ได้เชื่อมต่อ GitHub · ข้อมูลเดิมในเบราว์เซอร์ยังคงใช้งานได้</p>
+</div>
+
+<section id="home" class="page">
+<div class="grid">
+<div class="card stat"><span class="emoji">💰</span><small>รายรับทั้งหมด</small><strong id="totalIn">฿0</strong></div>
+<div class="card stat"><span class="emoji">🛍️</span><small>รายจ่ายทั้งหมด</small><strong id="totalOut">฿0</strong></div>
+<div class="card stat"><span class="emoji">🌸</span><small>คงเหลือสุทธิ</small><strong id="balance">฿0</strong></div>
+<div class="card stat"><span class="emoji">✨</span><small>ยอดผ่อน iPad สะสม</small><strong id="paidTotal">฿0</strong></div>
+</div>
+<div class="layout">
+<div class="card"><h2 class="section-title">💜 เป้าหมาย iPad + Pencil</h2><div class="row"><div><label>ราคา iPad (บาท)</label><input id="ipadPrice" type="number" value="55800"></div><div><label>ราคา Pencil (บาท)</label><input id="pencilPrice" type="number" value="6900"></div></div><div class="row"><div><label>เปอร์เซ็นต์ที่ต้องสะสม (%)</label><input id="targetPercent" type="number" value="35"></div><div><label>เป้าหมายสะสม</label><input id="targetAmount" disabled></div></div><div class="progress"><span id="progressBar"></span></div><div class="muted" id="progressText">สะสม 0%</div></div>
+<div class="card"><h2 class="section-title">🌙 สรุปคอมมิชชั่น</h2><div class="stat"><small>ยอดที่ยังต้องเก็บ</small><strong id="commissionDue">฿0</strong></div><p class="muted">รวมยอดค้างชำระจากงานที่บันทึกไว้</p></div>
+</div>
+<div class="card"><h2 class="section-title">🪄 รายการล่าสุด</h2><div id="recent"></div></div>
+</section>
+<section id="income" class="page hidden"><div class="layout"><div class="card"><h2 class="section-title">🌷 เพิ่มรายรับ</h2><form id="incomeForm"><label>รายการ</label><input name="name" required placeholder="เช่น ค่าขนม / เงินพิเศษ"><div class="row"><div><label>จำนวนเงิน</label><input name="amount" type="number" min="0" required></div><div><label>วันที่</label><input name="date" type="date" required></div></div><button class="btn">＋ บันทึกรายรับ</button></form></div><div class="card"><h2 class="section-title">📒 รายรับทั้งหมด</h2><div id="incomeList"></div></div></div></section>
+<section id="expense" class="page hidden"><div class="layout"><div class="card"><h2 class="section-title">🧁 เพิ่มรายจ่าย</h2><form id="expenseForm"><label>รายการ</label><input name="name" required placeholder="เช่น ค่าอาหาร / ค่าเดินทาง"><div class="row"><div><label>จำนวนเงิน</label><input name="amount" type="number" min="0" required></div><div><label>วันที่</label><input name="date" type="date" required></div></div><button class="btn">＋ บันทึกรายจ่าย</button></form></div><div class="card"><h2 class="section-title">🛍️ รายจ่ายทั้งหมด</h2><div id="expenseList"></div></div></div></section>
+<section id="ipad" class="page hidden"><div class="layout"><div class="card"><h2 class="section-title">💜 บันทึกเงินผ่อน</h2><form id="ipadForm"><label>จำนวนเงินที่จ่าย</label><input name="amount" type="number" min="1" required placeholder="จำนวนเงินบาท"><label>วันที่จ่าย</label><input name="date" type="date" required><label>หมายเหตุ</label><input name="note" placeholder="เช่น โอนให้ร้านแล้ว"><button class="btn">＋ เพิ่มยอดผ่อน</button></form></div><div class="card"><h2 class="section-title">🌟 ความคืบหน้า</h2><div class="stat"><small>ยอดสะสม</small><strong id="ipadPaid">฿0</strong></div><div class="stat"><small>ยังขาดอีก</small><strong id="ipadLeft">฿21,945</strong></div><div class="progress"><span id="ipadBar"></span></div><p class="muted" id="ipadPct">0% ของเป้าหมาย</p></div></div><div class="card"><h2 class="section-title">📜 ประวัติการผ่อน</h2><div id="ipadList"></div></div></section>
+<section id="commission" class="page hidden"><div class="layout"><div class="card"><h2 class="section-title">🎨 เพิ่มงานคอมมิชชั่น</h2><form id="commissionForm"><label>ชื่อลูกค้า / ชื่องาน</label><input name="name" required placeholder="เช่น Yuki - Character art"><div class="row"><div><label>ราคางาน</label><input name="price" type="number" min="0" required></div><div><label>รับเงินแล้ว</label><input name="paid" type="number" min="0" value="0" required></div></div><label>สถานะงาน</label><select name="status"><option>รอเริ่มงาน</option><option>กำลังทำ</option><option>ส่งงานแล้ว</option></select><button class="btn">＋ เพิ่มรายการ</button></form></div><div class="card"><h2 class="section-title">💌 ภาพรวมงาน</h2><div class="stat"><small>ยอดค่างานทั้งหมด</small><strong id="commissionTotal">฿0</strong></div><div class="stat"><small>รับเงินแล้ว</small><strong id="commissionPaid">฿0</strong></div></div></div><div class="card"><h2 class="section-title">🖼️ รายการคอมมิชชั่น</h2><div id="commissionList"></div></div></section>
+
+<section id="adoptable" class="page hidden">
+<div class="layout">
+<div class="card"><h2 class="section-title">🐣 เพิ่มงาน Adoptable</h2>
+<form id="adoptableForm">
+<label>ชื่อตัวละคร / ชื่องาน</label><input name="name" required placeholder="เช่น Moon Bunny #01">
+<div class="row"><div><label>ราคาขาย (บาท)</label><input name="price" type="number" min="0" required></div><div><label>สถานะ</label><select name="status"><option>พร้อม Adopt</option><option>มีคนจอง</option><option>Adopt แล้ว</option></select></div></div>
+<label>ผู้รับ Adopt / ผู้จอง (ถ้ามี)</label><input name="buyer" placeholder="ชื่อผู้ซื้อ หรือเว้นว่างไว้">
+<label>วันที่ลงขาย</label><input name="date" type="date" required>
+<label>รายละเอียด / ลิงก์โพสต์ / หมายเหตุ</label><input name="note" placeholder="เช่น รวมไฟล์ PNG, PSD หรือเงื่อนไขการใช้งาน">
+<button class="btn">＋ เพิ่มงาน Adoptable</button>
+</form></div>
+<div class="card"><h2 class="section-title">🌟 สรุปงาน Adoptable</h2>
+<div class="stat"><small>จำนวนงานทั้งหมด</small><strong id="adoptCount">0 งาน</strong></div>
+<div class="stat"><small>พร้อม Adopt</small><strong id="adoptAvailable">0 งาน</strong></div>
+<div class="stat"><small>ยอดขายจาก Adopt แล้ว</small><strong id="adoptRevenue">฿0</strong></div>
+<p class="muted">เปลี่ยนสถานะได้จากตารางรายการด้านล่าง</p></div>
+</div>
+<div class="card"><h2 class="section-title">🧸 รายการ Adoptable</h2><div id="adoptableList"></div></div>
+</section>
+
+<div class="footer">Made with ♡ for your little dreams · บันทึกในเครื่อง และสามารถซิงก์ขึ้น GitHub Private Repository ได้</div>
+</div>
+<script>
+const $=id=>document.getElementById(id), money=n=>'฿'+Number(n||0).toLocaleString('th-TH',{maximumFractionDigits:2}), today=()=>new Date().toISOString().slice(0,10);
+let db=JSON.parse(localStorage.getItem('littleFinanceDB')||'{"income":[],"expense":[],"ipad":[],"commission":[],"adoptable":[]}');
+db.adoptable ||= [];
+let settings=JSON.parse(localStorage.getItem('littleFinanceSettings')||'{"ipadPrice":55800,"pencilPrice":6900,"percent":35}');
+
+let ghConfig=JSON.parse(localStorage.getItem('littleFinanceGitHubConfig')||'{}');
+let cloudSaveTimer=null, cloudBusy=false;
+function ghStatus(message){const el=$('ghStatus');if(el)el.textContent=message}
+function save(){
+ localStorage.setItem('littleFinanceDB',JSON.stringify(db));
+ localStorage.setItem('littleFinanceSettings',JSON.stringify(settings));
+ render();
+ if(ghConfig.owner && ghConfig.repo && sessionStorage.getItem('littleFinanceGitHubToken')){
+   clearTimeout(cloudSaveTimer);
+   ghStatus('มีการเปลี่ยนแปลงข้อมูล · กำลังเตรียมบันทึกขึ้น GitHub…');
+   cloudSaveTimer=setTimeout(pushCloudData,900);
+ }
+}
+function githubHeaders(token){
+ return {'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'};
+}
+function getCloudConfig(){
+ const owner=$('ghOwner').value.trim(),repo=$('ghRepo').value.trim(),branch=$('ghBranch').value.trim()||'main';
+ const token=$('ghToken').value.trim()||sessionStorage.getItem('littleFinanceGitHubToken')||'';
+ if(!owner||!repo||!token)throw new Error('กรุณากรอก Owner, Repository และ Token ให้ครบ');
+ ghConfig={owner,repo,branch};
+ localStorage.setItem('littleFinanceGitHubConfig',JSON.stringify(ghConfig));
+ sessionStorage.setItem('littleFinanceGitHubToken',token);
+ return {owner,repo,branch,token};
+}
+async function loadCloudData(){
+ const c=getCloudConfig();
+ ghStatus('กำลังเชื่อมต่อและโหลดข้อมูลจาก Private Repository…');
+ const url=`https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/finance_data.json?ref=${encodeURIComponent(c.branch)}`;
+ const res=await fetch(url,{headers:githubHeaders(c.token)});
+ if(res.status===404){ghStatus('เชื่อมต่อแล้ว · ยังไม่มี finance_data.json จะสร้างเมื่อบันทึกข้อมูลครั้งแรก');return false;}
+ if(!res.ok)throw new Error('โหลดข้อมูลไม่สำเร็จ ('+res.status+'): '+(await res.text()).slice(0,220));
+ const file=await res.json();
+ const bytes=Uint8Array.from(atob((file.content||'').replace(/\n/g,'')),ch=>ch.charCodeAt(0));
+ const payload=JSON.parse(new TextDecoder().decode(bytes));
+ if(!payload.db || !payload.settings)throw new Error('รูปแบบ finance_data.json ไม่ถูกต้อง');
+ db=payload.db; db.adoptable ||= [];
+ settings=payload.settings;
+ localStorage.setItem('littleFinanceDB',JSON.stringify(db));
+ localStorage.setItem('littleFinanceSettings',JSON.stringify(settings));
+ render();
+ ghStatus('โหลดข้อมูลจาก GitHub สำเร็จ · '+(payload.updatedAt||''));
+ return true;
+}
+async function pushCloudData(){
+ if(cloudBusy)return;
+ let c;
+ try{c=getCloudConfig();}catch(e){ghStatus(e.message);return;}
+ cloudBusy=true;ghStatus('กำลังส่งข้อมูลไปยัง GitHub Actions…');
+ try{
+   const payload=JSON.stringify({db,settings,updatedAt:new Date().toISOString()});
+   const res=await fetch(`https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/actions/workflows/save-finance.yml/dispatches`,{
+     method:'POST',headers:githubHeaders(c.token),
+     body:JSON.stringify({ref:c.branch,inputs:{payload}})
+   });
+   if(!res.ok)throw new Error('ส่งข้อมูลไม่สำเร็จ ('+res.status+'): '+(await res.text()).slice(0,240));
+   ghStatus('ส่งข้อมูลให้ GitHub Actions แล้ว · กำลังบันทึก finance_data.json (รอสักครู่)');
+   setTimeout(()=>ghStatus('ส่งคำสั่งบันทึกสำเร็จ · GitHub Actions กำลังทำงานหรือบันทึกเสร็จแล้ว'),5000);
+ }catch(e){ghStatus('บันทึกขึ้น GitHub ไม่สำเร็จ: '+e.message);}
+ finally{cloudBusy=false;}
+}
+async function connectGitHub(){
+ try{
+   const c=getCloudConfig();
+   const loaded=await loadCloudData();
+   if(!loaded){
+     ghStatus('เชื่อมต่อแล้ว · กำลังส่งข้อมูลที่มีอยู่ในเครื่องขึ้น GitHub…');
+     await pushCloudData();
+   }
+ }catch(e){ghStatus('เชื่อมต่อไม่สำเร็จ: '+e.message);}
+}
+
+function sum(arr,key='amount'){return arr.reduce((s,x)=>s+Number(x[key]||0),0)}
+function table(items,kind){if(!items.length)return '<div class="empty">ยังไม่มีรายการเลยน้า ♡</div>';return '<table><thead><tr><th>รายการ</th><th>วันที่</th><th>จำนวน</th><th></th></tr></thead><tbody>'+items.slice().reverse().map((x,i)=>`<tr><td>${esc(x.name||x.note||'ชำระเงิน')}${x.status?'<br><span class="pill">'+esc(x.status)+'</span>':''}</td><td>${x.date||'-'}</td><td>${money(x.amount??x.price)}</td><td><button class="btn small danger" onclick="del('${kind}',${items.length-1-i})">ลบ</button></td></tr>`).join('')+'</tbody></table>'}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function del(k,i){if(confirm('ลบรายการนี้ใช่ไหม?')){db[k].splice(i,1);save()}}
+function render(){
+ const ins=sum(db.income),outs=sum(db.expense),paid=sum(db.ipad),target=(Number(settings.ipadPrice)+Number(settings.pencilPrice))*Number(settings.percent)/100;
+ $('totalIn').textContent=money(ins);$('totalOut').textContent=money(outs);$('balance').textContent=money(ins-outs);$('paidTotal').textContent=money(paid);
+ $('ipadPrice').value=settings.ipadPrice;$('pencilPrice').value=settings.pencilPrice;$('targetPercent').value=settings.percent;$('targetAmount').value=money(target);
+ let pct=target?Math.min(100,paid/target*100):0;$('progressBar').style.width=pct+'%';$('progressText').textContent=`สะสม ${pct.toFixed(1)}% · ${money(paid)} / ${money(target)}`;
+ $('ipadPaid').textContent=money(paid);$('ipadLeft').textContent=money(Math.max(0,target-paid));$('ipadBar').style.width=pct+'%';$('ipadPct').textContent=pct.toFixed(1)+'% ของเป้าหมาย';
+ let due=sum(db.commission,'price')-sum(db.commission,'paid');$('commissionDue').textContent=money(due);$('commissionTotal').textContent=money(sum(db.commission,'price'));$('commissionPaid').textContent=money(sum(db.commission,'paid'));
+ $('incomeList').innerHTML=table(db.income,'income');$('expenseList').innerHTML=table(db.expense,'expense');$('ipadList').innerHTML=table(db.ipad,'ipad');
+ $('commissionList').innerHTML=db.commission.length?'<table><thead><tr><th>ลูกค้า / งาน</th><th>สถานะ</th><th>ราคา</th><th>ค้าง</th><th></th></tr></thead><tbody>'+db.commission.map((x,i)=>`<tr><td>${esc(x.name)}</td><td>${esc(x.status)}</td><td>${money(x.price)}</td><td>${money(x.price-x.paid)}</td><td><button class="btn small danger" onclick="del('commission',${i})">ลบ</button></td></tr>`).join('')+'</tbody></table>':'<div class="empty">ยังไม่มีงานคอมมิชชั่น ♡</div>';
+ let recent=[...db.income.map(x=>({...x,type:'รายรับ',amount:x.amount})),...db.expense.map(x=>({...x,type:'รายจ่าย',amount:x.amount})),...db.ipad.map(x=>({...x,type:'ผ่อน iPad',amount:x.amount}))].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,6);
+ $('recent').innerHTML=recent.length?'<table><tbody>'+recent.map(x=>`<tr><td>${esc(x.name||x.note||x.type)} <span class="muted">· ${x.type}</span></td><td>${x.date||'-'}</td><td>${money(x.amount)}</td></tr>`).join('')+'</tbody></table>':'<div class="empty">เริ่มบันทึกรายรับรายจ่ายของคุณได้เลย ✨</div>';
+}
+function bindForm(id,key,mapper){$(id).addEventListener('submit',e=>{e.preventDefault();let f=new FormData(e.target),x=mapper(f);db[key].push(x);e.target.reset();e.target.querySelector('[name=date]')?.setAttribute('value',today());save()})}
+bindForm('incomeForm','income',f=>({name:f.get('name'),amount:+f.get('amount'),date:f.get('date')}));
+bindForm('expenseForm','expense',f=>({name:f.get('name'),amount:+f.get('amount'),date:f.get('date')}));
+bindForm('ipadForm','ipad',f=>({name:'ชำระเงินผ่อน iPad',amount:+f.get('amount'),date:f.get('date'),note:f.get('note')}));
+bindForm('commissionForm','commission',f=>({name:f.get('name'),price:+f.get('price'),paid:+f.get('paid'),status:f.get('status'),date:today()}));
+bindForm('adoptableForm','adoptable',f=>({name:f.get('name'),price:+f.get('price'),status:f.get('status'),buyer:f.get('buyer'),date:f.get('date'),note:f.get('note')}));
+function updateAdoptStatus(i,status){db.adoptable[i].status=status;save()}
+['ipadPrice','pencilPrice','targetPercent'].forEach(id=>$(id).addEventListener('change',()=>{settings={ipadPrice:+$('ipadPrice').value,pencilPrice:+$('pencilPrice').value,percent:+$('targetPercent').value};save()}));
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.page').forEach(x=>x.classList.toggle('hidden',x.id!==b.dataset.page))}));
+
+if(ghConfig.owner)$('ghOwner').value=ghConfig.owner;
+if(ghConfig.repo)$('ghRepo').value=ghConfig.repo;
+if(ghConfig.branch)$('ghBranch').value=ghConfig.branch;
+$('ghConnect').addEventListener('click',connectGitHub);
+$('ghSaveNow').addEventListener('click',()=>{clearTimeout(cloudSaveTimer);pushCloudData()});
+if(ghConfig.owner && ghConfig.repo){
+ ghStatus('พบการตั้งค่า Repository · กรอก Token อีกครั้งเพื่อเชื่อมต่อ (Token จะอยู่ใน Session เท่านั้น)');
+}
+
+document.querySelectorAll('input[type=date]').forEach(x=>x.value=today());render();
+</script>
+</body></html>

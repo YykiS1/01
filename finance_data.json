@@ -1,0 +1,15 @@
+{
+  "db": {
+    "income": [],
+    "expense": [],
+    "ipad": [],
+    "commission": [],
+    "adoptable": []
+  },
+  "settings": {
+    "ipadPrice": 55800,
+    "pencilPrice": 6900,
+    "percent": 35
+  },
+  "updatedAt": null
+}
